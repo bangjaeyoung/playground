@@ -1,6 +1,7 @@
 package com.example.board.api.v1.board.service.impl
 
 import com.example.board.api.v1.board.controller.dto.RequestDto
+import com.example.board.api.v1.board.controller.dto.ResponseDto
 import com.example.board.api.v1.board.domain.Board
 import com.example.board.api.v1.board.service.BoardService
 import com.example.board.mapper.BoardMapper
@@ -34,5 +35,17 @@ class BoardServiceImpl @Autowired constructor(
             content = request.content
         )
         v1BoardMapper.updateBoard(board)
+    }
+    
+    override fun getBoardById(boardId: Long): ResponseDto? {
+        val board = v1BoardMapper.selectBoardById(boardId) ?: return null
+        return ResponseDto(
+            boardId = board.boardId,
+            title = board.title,
+            content = board.content,
+            writer = board.writer,
+            createdDate = board.createdDate.toString(),
+            modifiedDate = board.modifiedDate.toString()
+        )
     }
 }

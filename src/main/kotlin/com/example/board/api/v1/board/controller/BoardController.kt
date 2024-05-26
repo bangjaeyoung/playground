@@ -1,6 +1,7 @@
 package com.example.board.api.v1.board.controller
 
 import com.example.board.api.v1.board.controller.dto.RequestDto
+import com.example.board.api.v1.board.controller.dto.ResponseDto
 import com.example.board.api.v1.board.service.BoardService
 import com.example.board.mapper.BoardMapper
 import jakarta.validation.Valid
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.validation.annotation.Validated
+import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PatchMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
@@ -39,5 +41,11 @@ class BoardController @Autowired constructor(
         
         v1BoardService.updateBoard(boardId, request)
         return ResponseEntity(HttpStatus.OK)
+    }
+    
+    @GetMapping("/{board-id}")
+    fun getBoard(@Positive @PathVariable("board-id") boardId: Long): ResponseEntity<ResponseDto> {
+        val findBoard = v1BoardService.getBoardById(boardId) ?: return ResponseEntity(HttpStatus.NOT_FOUND)
+        return ResponseEntity(findBoard, HttpStatus.OK)
     }
 }

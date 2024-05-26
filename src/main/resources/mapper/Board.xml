@@ -39,8 +39,8 @@
                TITLE,
                CONTENT,
                WRITER,
-               CREATED_DATE,
-               MODIFIED_DATE
+               DATE_FORMAT(CREATED_DATE, '%Y-%m-%d %H:%i:%s')  AS CREATED_DATE,
+               DATE_FORMAT(MODIFIED_DATE, '%Y-%m-%d %H:%i:%s') AS MODIFIED_DATE
         FROM BOARD
         WHERE BOARD_ID = #{boardId}
     </select>
