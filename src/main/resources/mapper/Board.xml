@@ -23,4 +23,26 @@
         )
     </insert>
 
+    <update id="updateBoard" parameterType="com.example.board.api.v1.board.domain.Board">
+        UPDATE BOARD
+        <set>
+            <if test="title != null and !title.equals('')">TITLE = #{title},</if>
+            <if test="content != null and !content.equals('')">CONTENT = #{content},</if>
+            MODIFIED_DATE = SYSDATE()
+        </set>
+        WHERE BOARD_ID = #{boardId}
+    </update>
+
+    <select id="selectBoardById" parameterType="java.lang.Long"
+            resultType="com.example.board.api.v1.board.domain.Board">
+        SELECT BOARD_ID,
+               TITLE,
+               CONTENT,
+               WRITER,
+               CREATED_DATE,
+               MODIFIED_DATE
+        FROM BOARD
+        WHERE BOARD_ID = #{boardId}
+    </select>
+
 </mapper>

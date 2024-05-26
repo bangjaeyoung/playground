@@ -6,4 +6,6 @@ import org.apache.ibatis.annotations.Mapper
 @Mapper
 interface BoardMapper {
     fun insertBoard(board: Board)
+    fun updateBoard(board: Board)
+    fun selectBoardById(boardId: Long): Board?
 }
