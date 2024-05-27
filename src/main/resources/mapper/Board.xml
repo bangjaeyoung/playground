@@ -64,6 +64,16 @@
                DATE_FORMAT(DELETED_DATE, '%Y-%m-%d %H:%i:%s')  AS DELETED_DATE
         FROM BOARD
         WHERE DELETED_CHECK = 0
+        ORDER BY BOARD_ID
+            LIMIT #{limit}
+        OFFSET #{offset}
+    </select>
+
+    <select id="countAllBoards"
+            resultType="int">
+        SELECT COUNT(*)
+        FROM BOARD
+        WHERE DELETED_CHECK = 0
     </select>
 
     <update id="deleteBoardById" parameterType="java.lang.Long">

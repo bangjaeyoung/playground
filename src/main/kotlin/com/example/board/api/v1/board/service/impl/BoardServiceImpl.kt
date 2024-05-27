@@ -6,6 +6,7 @@ import com.example.board.api.v1.board.domain.Board
 import com.example.board.api.v1.board.service.BoardService
 import com.example.board.global.exception.BoardException
 import com.example.board.global.mapper.BoardMapper
+import com.example.board.global.response.Page
 import com.example.board.global.response.ResponseCode
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
@@ -53,9 +54,13 @@ class BoardServiceImpl @Autowired constructor(
         )
     }
     
-    override fun getAllBoards(): List<BoardResponse> {
-        val allBoards = v1BoardMapper.selectAllBoards()
-        return allBoards.map { board ->
+    override fun getAllBoards(page: Int, size: Int): Page<BoardResponse> {
+        val totalElements = v1BoardMapper.countAllBoards()
+        val totalPages = (totalElements + size - 1) / size
+        val offset = (page - 1) * size
+        val allBoards = v1BoardMapper.selectAllBoards(size, offset)
+        
+        val data = allBoards.map { board ->
             BoardResponse(
                 boardId = board.boardId,
                 title = board.title,
@@ -65,6 +70,8 @@ class BoardServiceImpl @Autowired constructor(
                 modifiedDate = board.modifiedDate
             )
         }
+        
+        return Page(data, totalElements, totalPages, page)
     }
     
     @Transactional

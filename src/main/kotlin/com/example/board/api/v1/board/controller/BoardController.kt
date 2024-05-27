@@ -4,6 +4,7 @@ import com.example.board.api.v1.board.controller.dto.BoardRequest
 import com.example.board.api.v1.board.controller.dto.BoardResponse
 import com.example.board.api.v1.board.service.BoardService
 import com.example.board.global.response.ApiResponse
+import com.example.board.global.response.Page
 import com.example.board.global.response.ResponseCode
 import jakarta.validation.Valid
 import jakarta.validation.constraints.Positive
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 
 @Validated
@@ -55,9 +57,12 @@ class BoardController @Autowired constructor(
     }
     
     @GetMapping
-    fun getBoards(): ApiResponse<List<BoardResponse>> {
+    fun getBoards(
+        @RequestParam(defaultValue = "1") page: Int,
+        @RequestParam(defaultValue = "10") size: Int
+    ): ApiResponse<Page<BoardResponse>> {
         return ApiResponse.success(
-            v1BoardService.getAllBoards(),
+            v1BoardService.getAllBoards(page, size),
             ResponseCode.POST_READ_SUCCESS.message
         )
     }
