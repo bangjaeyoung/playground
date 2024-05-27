@@ -8,4 +8,5 @@ interface BoardMapper {
     fun insertBoard(board: Board)
     fun updateBoard(board: Board)
     fun selectBoardById(boardId: Long): Board?
+    fun selectAllBoards(): List<Board>
 }

@@ -45,4 +45,15 @@
         WHERE BOARD_ID = #{boardId}
     </select>
 
+    <select id="selectAllBoards"
+            resultType="com.example.board.api.v1.board.domain.Board">
+        SELECT BOARD_ID,
+               TITLE,
+               CONTENT,
+               WRITER,
+               DATE_FORMAT(CREATED_DATE, '%Y-%m-%d %H:%i:%s')  AS CREATED_DATE,
+               DATE_FORMAT(MODIFIED_DATE, '%Y-%m-%d %H:%i:%s') AS MODIFIED_DATE
+        FROM BOARD
+    </select>
+
 </mapper>

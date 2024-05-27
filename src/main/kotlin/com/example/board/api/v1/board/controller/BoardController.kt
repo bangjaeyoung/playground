@@ -25,6 +25,7 @@ class BoardController @Autowired constructor(
     val v1BoardService: BoardService,
     val v1BoardMapper: BoardMapper
 ) {
+    
     @PostMapping
     fun postBoard(@Valid @RequestBody request: RequestDto.Post): ResponseEntity<Long> {
         return ResponseEntity(v1BoardService.postBoard(request), HttpStatus.CREATED)
@@ -47,5 +48,10 @@ class BoardController @Autowired constructor(
     fun getBoard(@Positive @PathVariable("board-id") boardId: Long): ResponseEntity<ResponseDto> {
         val findBoard = v1BoardService.getBoardById(boardId) ?: return ResponseEntity(HttpStatus.NOT_FOUND)
         return ResponseEntity(findBoard, HttpStatus.OK)
+    }
+    
+    @GetMapping
+    fun getBoards(): List<ResponseDto> {
+        return v1BoardService.getAllBoards();
     }
 }

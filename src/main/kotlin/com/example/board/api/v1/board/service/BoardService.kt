@@ -12,4 +12,7 @@ interface BoardService {
     
     // 게시글 단일 조회
     fun getBoardById(boardId: Long): ResponseDto?
+    
+    // 게시글 전체 조회
+    fun getAllBoards(): List<ResponseDto>
 }

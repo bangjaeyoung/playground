@@ -48,4 +48,18 @@ class BoardServiceImpl @Autowired constructor(
             modifiedDate = board.modifiedDate.toString()
         )
     }
+    
+    override fun getAllBoards(): List<ResponseDto> {
+        val allBoards = v1BoardMapper.selectAllBoards()
+        return allBoards.map { board ->
+            ResponseDto(
+                boardId = board.boardId,
+                title = board.title,
+                content = board.content,
+                writer = board.writer,
+                createdDate = board.createdDate,
+                modifiedDate = board.modifiedDate
+            )
+        }
+    }
 }
