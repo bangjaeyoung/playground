@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("/api/v1/boards")
 class BoardController @Autowired constructor(
-    val v1BoardService: BoardService,
+    val v1BoardService: BoardService
 ) {
     
     @PostMapping
