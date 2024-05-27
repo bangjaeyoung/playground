@@ -1,6 +1,6 @@
 package com.example.board.api.v1.board.controller.dto
 
-data class ResponseDto(
+data class BoardResponse(
     val boardId: Long? = null,
     val title: String? = null,
     val content: String? = null,

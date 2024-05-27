@@ -1,7 +1,7 @@
 package com.example.board.api.v1.board.service.impl
 
-import com.example.board.api.v1.board.controller.dto.RequestDto
-import com.example.board.api.v1.board.controller.dto.ResponseDto
+import com.example.board.api.v1.board.controller.dto.BoardRequest
+import com.example.board.api.v1.board.controller.dto.BoardResponse
 import com.example.board.api.v1.board.domain.Board
 import com.example.board.api.v1.board.service.BoardService
 import com.example.board.mapper.BoardMapper
@@ -16,7 +16,7 @@ class BoardServiceImpl @Autowired constructor(
 ) : BoardService {
     
     @Transactional
-    override fun postBoard(request: RequestDto.Post): Long {
+    override fun postBoard(request: BoardRequest.Post): Long {
         val board = Board(
             title = request.title,
             content = request.content,
@@ -28,7 +28,7 @@ class BoardServiceImpl @Autowired constructor(
     }
     
     @Transactional
-    override fun updateBoard(boardId: Long, request: RequestDto.Update) {
+    override fun updateBoard(boardId: Long, request: BoardRequest.Update) {
         val board = Board(
             boardId = boardId,
             title = request.title,
@@ -37,9 +37,9 @@ class BoardServiceImpl @Autowired constructor(
         v1BoardMapper.updateBoard(board)
     }
     
-    override fun getBoardById(boardId: Long): ResponseDto? {
+    override fun getBoardById(boardId: Long): BoardResponse? {
         val board = v1BoardMapper.selectBoardById(boardId) ?: return null
-        return ResponseDto(
+        return BoardResponse(
             boardId = board.boardId,
             title = board.title,
             content = board.content,
@@ -49,10 +49,10 @@ class BoardServiceImpl @Autowired constructor(
         )
     }
     
-    override fun getAllBoards(): List<ResponseDto> {
+    override fun getAllBoards(): List<BoardResponse> {
         val allBoards = v1BoardMapper.selectAllBoards()
         return allBoards.map { board ->
-            ResponseDto(
+            BoardResponse(
                 boardId = board.boardId,
                 title = board.title,
                 content = board.content,

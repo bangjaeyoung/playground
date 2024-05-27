@@ -1,7 +1,7 @@
 package com.example.board.api.v1.board.controller
 
-import com.example.board.api.v1.board.controller.dto.RequestDto
-import com.example.board.api.v1.board.controller.dto.ResponseDto
+import com.example.board.api.v1.board.controller.dto.BoardRequest
+import com.example.board.api.v1.board.controller.dto.BoardResponse
 import com.example.board.api.v1.board.service.BoardService
 import com.example.board.mapper.BoardMapper
 import jakarta.validation.Valid
@@ -28,14 +28,14 @@ class BoardController @Autowired constructor(
 ) {
     
     @PostMapping
-    fun postBoard(@Valid @RequestBody request: RequestDto.Post): ResponseEntity<Long> {
+    fun postBoard(@Valid @RequestBody request: BoardRequest.Post): ResponseEntity<Long> {
         return ResponseEntity(v1BoardService.postBoard(request), HttpStatus.CREATED)
     }
     
     @PatchMapping("/{board-id}")
     fun updateBoard(
         @Positive @PathVariable("board-id") boardId: Long,
-        @Valid @RequestBody request: RequestDto.Update
+        @Valid @RequestBody request: BoardRequest.Update
     ): ResponseEntity<HttpStatus> {
         if (v1BoardMapper.selectBoardById(boardId) == null) {
             return ResponseEntity(HttpStatus.NOT_FOUND)
@@ -46,13 +46,13 @@ class BoardController @Autowired constructor(
     }
     
     @GetMapping("/{board-id}")
-    fun getBoard(@Positive @PathVariable("board-id") boardId: Long): ResponseEntity<ResponseDto> {
+    fun getBoard(@Positive @PathVariable("board-id") boardId: Long): ResponseEntity<BoardResponse> {
         val findBoard = v1BoardService.getBoardById(boardId) ?: return ResponseEntity(HttpStatus.NOT_FOUND)
         return ResponseEntity(findBoard, HttpStatus.OK)
     }
     
     @GetMapping
-    fun getBoards(): ResponseEntity<List<ResponseDto>> {
+    fun getBoards(): ResponseEntity<List<BoardResponse>> {
         return ResponseEntity(v1BoardService.getAllBoards(), HttpStatus.OK)
     }
     

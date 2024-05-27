@@ -1,20 +1,20 @@
 package com.example.board.api.v1.board.service
 
-import com.example.board.api.v1.board.controller.dto.RequestDto
-import com.example.board.api.v1.board.controller.dto.ResponseDto
+import com.example.board.api.v1.board.controller.dto.BoardRequest
+import com.example.board.api.v1.board.controller.dto.BoardResponse
 
 interface BoardService {
     // 게시글 생성
-    fun postBoard(request: RequestDto.Post): Long
+    fun postBoard(request: BoardRequest.Post): Long
     
     // 게시글 수정
-    fun updateBoard(boardId: Long, request: RequestDto.Update)
+    fun updateBoard(boardId: Long, request: BoardRequest.Update)
     
     // 게시글 단일 조회
-    fun getBoardById(boardId: Long): ResponseDto?
+    fun getBoardById(boardId: Long): BoardResponse?
     
     // 게시글 전체 조회
-    fun getAllBoards(): List<ResponseDto>
+    fun getAllBoards(): List<BoardResponse>
     
     // 게시글 단일 삭제
     fun deleteBoardById(boardId: Long)
