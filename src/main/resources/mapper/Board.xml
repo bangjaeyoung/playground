@@ -12,14 +12,18 @@
         TITLE,
         CONTENT,
         CREATED_DATE,
-        MODIFIED_DATE
+        MODIFIED_DATE,
+        DELETED_CHECK,
+        DELETED_DATE
         ) VALUES (
         #{boardId},
         #{writer},
         #{title},
         #{content},
         SYSDATE(),
-        #{modifiedDate}
+        #{modifiedDate},
+        0,
+        null
         )
     </insert>
 
@@ -40,9 +44,12 @@
                CONTENT,
                WRITER,
                DATE_FORMAT(CREATED_DATE, '%Y-%m-%d %H:%i:%s')  AS CREATED_DATE,
-               DATE_FORMAT(MODIFIED_DATE, '%Y-%m-%d %H:%i:%s') AS MODIFIED_DATE
+               DATE_FORMAT(MODIFIED_DATE, '%Y-%m-%d %H:%i:%s') AS MODIFIED_DATE,
+               DELETED_CHECK,
+               DATE_FORMAT(DELETED_DATE, '%Y-%m-%d %H:%i:%s')  AS DELETED_DATE
         FROM BOARD
         WHERE BOARD_ID = #{boardId}
+          AND DELETED_CHECK = 0
     </select>
 
     <select id="selectAllBoards"
@@ -52,19 +59,26 @@
                CONTENT,
                WRITER,
                DATE_FORMAT(CREATED_DATE, '%Y-%m-%d %H:%i:%s')  AS CREATED_DATE,
-               DATE_FORMAT(MODIFIED_DATE, '%Y-%m-%d %H:%i:%s') AS MODIFIED_DATE
+               DATE_FORMAT(MODIFIED_DATE, '%Y-%m-%d %H:%i:%s') AS MODIFIED_DATE,
+               DELETED_CHECK,
+               DATE_FORMAT(DELETED_DATE, '%Y-%m-%d %H:%i:%s')  AS DELETED_DATE
         FROM BOARD
+        WHERE DELETED_CHECK = 0
     </select>
 
-    <delete id="deleteBoardById" parameterType="java.lang.Long">
-        DELETE
-        FROM BOARD
+    <update id="deleteBoardById" parameterType="java.lang.Long">
+        UPDATE BOARD
+        SET DELETED_CHECK = 1,
+            DELETED_DATE  = SYSDATE()
         WHERE BOARD_ID = #{boardId}
-    </delete>
+          AND DELETED_CHECK = 0
+    </update>
 
-    <delete id="deleteAllBoards">
-        DELETE
-        FROM BOARD
-    </delete>
+    <update id="deleteAllBoards">
+        UPDATE BOARD
+        SET DELETED_CHECK = 1,
+            DELETED_DATE  = SYSDATE()
+        WHERE DELETED_CHECK = 0
+    </update>
 
 </mapper>

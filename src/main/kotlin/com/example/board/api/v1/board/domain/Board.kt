@@ -7,4 +7,6 @@ data class Board(
     val writer: String? = null,
     val createdDate: String? = null,
     val modifiedDate: String? = null,
+    val deletedCheck: String? = null,
+    val deletedDate: String? = null
 )
