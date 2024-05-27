@@ -31,7 +31,7 @@ class BoardController @Autowired constructor(
         return ApiResponse.success(
             v1BoardService.postBoard(request),
             ResponseCode.POST_CREATE_SUCCESS.message
-        );
+        )
     }
     
     @PatchMapping("/{board-id}")
