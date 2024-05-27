@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.validation.annotation.Validated
+import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PatchMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -51,7 +52,19 @@ class BoardController @Autowired constructor(
     }
     
     @GetMapping
-    fun getBoards(): List<ResponseDto> {
-        return v1BoardService.getAllBoards();
+    fun getBoards(): ResponseEntity<List<ResponseDto>> {
+        return ResponseEntity(v1BoardService.getAllBoards(), HttpStatus.OK)
+    }
+    
+    @DeleteMapping("/{board-id}")
+    fun deleteBoard(@Positive @PathVariable("board-id") boardId: Long): ResponseEntity<HttpStatus> {
+        v1BoardService.deleteBoardById(boardId)
+        return ResponseEntity(HttpStatus.NO_CONTENT)
+    }
+    
+    @DeleteMapping
+    fun deleteAllBoards(): ResponseEntity<HttpStatus> {
+        v1BoardService.deleteAllBoards()
+        return ResponseEntity(HttpStatus.NO_CONTENT)
     }
 }

@@ -15,4 +15,10 @@ interface BoardService {
     
     // 게시글 전체 조회
     fun getAllBoards(): List<ResponseDto>
+    
+    // 게시글 단일 삭제
+    fun deleteBoardById(boardId: Long)
+    
+    // 게시글 전체 삭제
+    fun deleteAllBoards()
 }

@@ -62,4 +62,14 @@ class BoardServiceImpl @Autowired constructor(
             )
         }
     }
+    
+    @Transactional
+    override fun deleteBoardById(boardId: Long) {
+        v1BoardMapper.deleteBoardById(boardId)
+    }
+    
+    @Transactional
+    override fun deleteAllBoards() {
+        v1BoardMapper.deleteAllBoards()
+    }
 }

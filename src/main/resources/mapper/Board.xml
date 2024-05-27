@@ -56,4 +56,15 @@
         FROM BOARD
     </select>
 
+    <delete id="deleteBoardById" parameterType="java.lang.Long">
+        DELETE
+        FROM BOARD
+        WHERE BOARD_ID = #{boardId}
+    </delete>
+
+    <delete id="deleteAllBoards">
+        DELETE
+        FROM BOARD
+    </delete>
+
 </mapper>

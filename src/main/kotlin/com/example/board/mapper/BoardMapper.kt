@@ -9,4 +9,6 @@ interface BoardMapper {
     fun updateBoard(board: Board)
     fun selectBoardById(boardId: Long): Board?
     fun selectAllBoards(): List<Board>
+    fun deleteBoardById(boardId: Long)
+    fun deleteAllBoards()
 }
