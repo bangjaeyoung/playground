@@ -4,7 +4,7 @@ import com.example.board.api.v1.board.controller.dto.BoardRequest
 import com.example.board.api.v1.board.controller.dto.BoardResponse
 import com.example.board.api.v1.board.domain.Board
 import com.example.board.api.v1.board.service.BoardService
-import com.example.board.mapper.BoardMapper
+import com.example.board.global.mapper.BoardMapper
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional

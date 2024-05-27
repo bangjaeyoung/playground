@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.example.board.mapper.BoardMapper">
+<mapper namespace="com.example.board.global.mapper.BoardMapper">
 
     <insert id="insertBoard" parameterType="com.example.board.api.v1.board.domain.Board">
         <selectKey keyProperty="boardId" resultType="java.lang.Long" order="AFTER">
