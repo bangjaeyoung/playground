@@ -37,18 +37,13 @@ class BoardController @Autowired constructor(
         @Positive @PathVariable("board-id") boardId: Long,
         @Valid @RequestBody request: BoardRequest.Update
     ): ResponseEntity<HttpStatus> {
-        if (v1BoardMapper.selectBoardById(boardId) == null) {
-            return ResponseEntity(HttpStatus.NOT_FOUND)
-        }
-        
         v1BoardService.updateBoard(boardId, request)
         return ResponseEntity(HttpStatus.OK)
     }
     
     @GetMapping("/{board-id}")
     fun getBoard(@Positive @PathVariable("board-id") boardId: Long): ResponseEntity<BoardResponse> {
-        val findBoard = v1BoardService.getBoardById(boardId) ?: return ResponseEntity(HttpStatus.NOT_FOUND)
-        return ResponseEntity(findBoard, HttpStatus.OK)
+        return ResponseEntity(v1BoardService.getBoardById(boardId), HttpStatus.OK)
     }
     
     @GetMapping
