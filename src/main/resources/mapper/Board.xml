@@ -55,17 +55,35 @@
     <select id="selectAllBoards"
             resultType="com.example.board.api.v1.board.domain.Board">
         SELECT BOARD_ID,
-               TITLE,
-               CONTENT,
-               WRITER,
-               DATE_FORMAT(CREATED_DATE, '%Y-%m-%d %H:%i:%s')  AS CREATED_DATE,
-               DATE_FORMAT(MODIFIED_DATE, '%Y-%m-%d %H:%i:%s') AS MODIFIED_DATE,
-               DELETED_CHECK,
-               DATE_FORMAT(DELETED_DATE, '%Y-%m-%d %H:%i:%s')  AS DELETED_DATE
+        TITLE,
+        CONTENT,
+        WRITER,
+        DATE_FORMAT(CREATED_DATE, '%Y-%m-%d %H:%i:%s') AS CREATED_DATE,
+        DATE_FORMAT(MODIFIED_DATE, '%Y-%m-%d %H:%i:%s') AS MODIFIED_DATE,
+        DELETED_CHECK,
+        DATE_FORMAT(DELETED_DATE, '%Y-%m-%d %H:%i:%s') AS DELETED_DATE
         FROM BOARD
-        WHERE DELETED_CHECK = 0
-        ORDER BY BOARD_ID
-            LIMIT #{limit}
+        <where>
+            <if test="searchType != null and searchType.equals('title') and searchText != null">
+                AND TITLE LIKE CONCAT ('%', #{searchText}, '%')
+            </if>
+            <if test="searchType != null and searchType.equals('writer') and searchText != null">
+                AND WRITER LIKE CONCAT ('%', #{searchText}, '%')
+            </if>
+            AND DELETED_CHECK = 0
+        </where>
+        <if test="orderCriteria != null">
+            ORDER BY
+            <choose>
+                <when test="orderCriteria.equals('board-id')">BOARD_ID</when>
+                <when test="orderCriteria.equals('title')">TITLE</when>
+                <when test="orderCriteria.equals('writer')">WRITER</when>
+                <when test="orderCriteria.equals('created-date')">CREATED_DATE</when>
+                <otherwise>BOARD_ID</otherwise>
+            </choose>
+            ${order}
+        </if>
+        LIMIT #{limit}
         OFFSET #{offset}
     </select>
 
@@ -73,7 +91,15 @@
             resultType="int">
         SELECT COUNT(*)
         FROM BOARD
-        WHERE DELETED_CHECK = 0
+        <where>
+            <if test="searchType != null and searchType.equals('title') and searchText != null">
+                AND TITLE LIKE CONCAT ('%', #{searchText}, '%')
+            </if>
+            <if test="searchType != null and searchType.equals('writer') and searchText != null">
+                AND WRITER LIKE CONCAT ('%', #{searchText}, '%')
+            </if>
+            AND DELETED_CHECK = 0
+        </where>
     </select>
 
     <update id="deleteBoardById" parameterType="java.lang.Long">

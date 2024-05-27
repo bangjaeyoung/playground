@@ -54,11 +54,18 @@ class BoardServiceImpl @Autowired constructor(
         )
     }
     
-    override fun getAllBoards(page: Int, size: Int): Page<BoardResponse> {
-        val totalElements = v1BoardMapper.countAllBoards()
+    override fun getAllBoards(
+        page: Int,
+        size: Int,
+        searchType: String?,
+        searchText: String?,
+        orderCriteria: String,
+        order: String
+    ): Page<BoardResponse> {
+        val totalElements = v1BoardMapper.countAllBoards(searchType, searchText)
         val totalPages = (totalElements + size - 1) / size
         val offset = (page - 1) * size
-        val allBoards = v1BoardMapper.selectAllBoards(size, offset)
+        val allBoards = v1BoardMapper.selectAllBoards(size, offset, searchType, searchText, orderCriteria, order)
         
         val data = allBoards.map { board ->
             BoardResponse(

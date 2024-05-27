@@ -58,11 +58,15 @@ class BoardController @Autowired constructor(
     
     @GetMapping
     fun getBoards(
-        @RequestParam(defaultValue = "1") page: Int,
-        @RequestParam(defaultValue = "10") size: Int
+        @RequestParam(name = "page", required = true, defaultValue = "1") page: Int,
+        @RequestParam(name = "size", required = true, defaultValue = "10") size: Int,
+        @RequestParam(name = "search-type", required = false) searchType: String?,
+        @RequestParam(name = "search-text", required = false) searchText: String?,
+        @RequestParam(name = "order-criteria", required = false, defaultValue = "board-id") orderCriteria: String,
+        @RequestParam(name = "order", required = true, defaultValue = "desc") order: String,
     ): ApiResponse<Page<BoardResponse>> {
         return ApiResponse.success(
-            v1BoardService.getAllBoards(page, size),
+            v1BoardService.getAllBoards(page, size, searchType, searchText, orderCriteria, order),
             ResponseCode.POST_READ_SUCCESS.message
         )
     }
