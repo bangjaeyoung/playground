@@ -37,8 +37,8 @@ class BoardServiceImpl @Autowired constructor(
         v1BoardMapper.updateBoard(board)
     }
     
-    override fun getBoardById(boardId: Long): BoardResponse? {
-        val board = v1BoardMapper.selectBoardById(boardId) ?: return null
+    override fun getBoardById(boardId: Long): BoardResponse {
+        val board = v1BoardMapper.selectBoardById(boardId) ?: return BoardResponse()    // 임시
         return BoardResponse(
             boardId = board.boardId,
             title = board.title,

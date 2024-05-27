@@ -3,12 +3,12 @@ package com.example.board.api.v1.board.controller
 import com.example.board.api.v1.board.controller.dto.BoardRequest
 import com.example.board.api.v1.board.controller.dto.BoardResponse
 import com.example.board.api.v1.board.service.BoardService
-import com.example.board.mapper.BoardMapper
+import com.example.board.global.response.ApiResponse
+import com.example.board.global.response.ResponseCode
 import jakarta.validation.Valid
 import jakarta.validation.constraints.Positive
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
-import org.springframework.http.ResponseEntity
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
@@ -24,42 +24,59 @@ import org.springframework.web.bind.annotation.RestController
 @RequestMapping("/api/v1/boards")
 class BoardController @Autowired constructor(
     val v1BoardService: BoardService,
-    val v1BoardMapper: BoardMapper
 ) {
     
     @PostMapping
-    fun postBoard(@Valid @RequestBody request: BoardRequest.Post): ResponseEntity<Long> {
-        return ResponseEntity(v1BoardService.postBoard(request), HttpStatus.CREATED)
+    fun postBoard(@Valid @RequestBody request: BoardRequest.Post): ApiResponse<Long> {
+        return ApiResponse.success(
+            v1BoardService.postBoard(request),
+            ResponseCode.POST_CREATE_SUCCESS.message
+        );
     }
     
     @PatchMapping("/{board-id}")
     fun updateBoard(
         @Positive @PathVariable("board-id") boardId: Long,
         @Valid @RequestBody request: BoardRequest.Update
-    ): ResponseEntity<HttpStatus> {
+    ): ApiResponse<HttpStatus> {
         v1BoardService.updateBoard(boardId, request)
-        return ResponseEntity(HttpStatus.OK)
+        return ApiResponse.success(
+            ResponseCode.POST_UPDATE_SUCCESS.httpStatus,
+            ResponseCode.POST_UPDATE_SUCCESS.message
+        )
     }
     
     @GetMapping("/{board-id}")
-    fun getBoard(@Positive @PathVariable("board-id") boardId: Long): ResponseEntity<BoardResponse> {
-        return ResponseEntity(v1BoardService.getBoardById(boardId), HttpStatus.OK)
+    fun getBoard(@Positive @PathVariable("board-id") boardId: Long): ApiResponse<BoardResponse> {
+        return ApiResponse.success(
+            v1BoardService.getBoardById(boardId),
+            ResponseCode.POST_READ_SUCCESS.message
+        )
     }
     
     @GetMapping
-    fun getBoards(): ResponseEntity<List<BoardResponse>> {
-        return ResponseEntity(v1BoardService.getAllBoards(), HttpStatus.OK)
+    fun getBoards(): ApiResponse<List<BoardResponse>> {
+        return ApiResponse.success(
+            v1BoardService.getAllBoards(),
+            ResponseCode.POST_READ_SUCCESS.message
+        )
     }
     
     @DeleteMapping("/{board-id}")
-    fun deleteBoard(@Positive @PathVariable("board-id") boardId: Long): ResponseEntity<HttpStatus> {
+    fun deleteBoard(@Positive @PathVariable("board-id") boardId: Long): ApiResponse<HttpStatus> {
         v1BoardService.deleteBoardById(boardId)
-        return ResponseEntity(HttpStatus.NO_CONTENT)
+        return ApiResponse.success(
+            ResponseCode.POST_DELETE_SUCCESS.httpStatus,
+            ResponseCode.POST_DELETE_SUCCESS.message,
+        )
     }
     
     @DeleteMapping
-    fun deleteAllBoards(): ResponseEntity<HttpStatus> {
+    fun deleteAllBoards(): ApiResponse<HttpStatus> {
         v1BoardService.deleteAllBoards()
-        return ResponseEntity(HttpStatus.NO_CONTENT)
+        return ApiResponse.success(
+            ResponseCode.POST_DELETE_SUCCESS.httpStatus,
+            ResponseCode.POST_DELETE_SUCCESS.message,
+        )
     }
 }

@@ -11,7 +11,7 @@ interface BoardService {
     fun updateBoard(boardId: Long, request: BoardRequest.Update)
     
     // 게시글 단일 조회
-    fun getBoardById(boardId: Long): BoardResponse?
+    fun getBoardById(boardId: Long): BoardResponse
     
     // 게시글 전체 조회
     fun getAllBoards(): List<BoardResponse>
