@@ -32,21 +32,26 @@ dependencies {
     annotationProcessor("org.projectlombok:lombok")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
-    
+
     // Validation
     implementation("org.springframework.boot:spring-boot-starter-validation")
-    
+
     // MyBatis
     implementation("org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.3")
     testImplementation("org.mybatis.spring.boot:mybatis-spring-boot-starter-test:3.0.3")
-    
+
     // MySQL DB
     runtimeOnly("com.mysql:mysql-connector-j")
-    
+
     // 로깅
     implementation("io.github.oshai:kotlin-logging-jvm:5.1.1")
+    implementation("org.slf4j:slf4j-api:2.0.9") // SLF4J API
+    implementation("ch.qos.logback:logback-classic:1.4.11") // Logback (SLF4J 구현체)
+
     // log4jdbc-log4j2 추가
     implementation("org.bgee.log4jdbc-log4j2:log4jdbc-log4j2-jdbc4.1:1.16")
+
+    testImplementation("org.jeasy:easy-random-core:5.0.0")
 }
 
 tasks.withType<KotlinCompile> {
